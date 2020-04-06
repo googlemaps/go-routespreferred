@@ -1,0 +1,18 @@
+branches:
+  - master
+plugins:
+  - "@semantic-release/commit-analyzer"
+  - "@semantic-release/release-notes-generator"
+  - - "@google/semantic-release-replace-plugin"
+    - replacements:
+        - files:
+            - "**/doc.go"
+          from: "const versionClient = \".*\""
+          to: "const versionClient = \"${nextRelease.version}\""
+  - - "@semantic-release/git"
+    - assets:
+        - "**/doc.go"
+        - "*.md"
+  - "@semantic-release/github"
+options:
+  debug: true
