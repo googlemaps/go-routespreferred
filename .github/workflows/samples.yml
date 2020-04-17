@@ -1,0 +1,46 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: Samples
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 12 * * *"
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/service-account.json
+    steps:
+      - uses: actions/setup-go@v1
+        with:
+          go-version: 1.13
+        id: go
+      - uses: actions/checkout@v2
+      # find will not exit if failure, so write to file and then check if any of these files exist
+      - name: build samples
+        run: |
+          find samples -name main.go -execdir sh -c "pwd; go build {} || touch failed.txt" \;
+          failures=$(find samples -name failed.txt);
+          if [[ ( -n $failures ) ]]; then echo ${failures}; exit 1; fi
+      - run: echo "${ROUTES_PREFERRED_SERVICE_ACCOUNT}" > $GOOGLE_APPLICATION_CREDENTIALS
+        env:
+          ROUTES_PREFERRED_SERVICE_ACCOUNT: ${{secrets.ROUTES_PREFERRED_SERVICE_ACCOUNT}}
+      - name: run samples
+        if: github.event_name == 'push'
+        run: |
+          find samples -name main.go -execdir sh -c "pwd; go run {} || touch failed.txt" \;
+          failures=$(find samples -name failed.txt);
+          if [[ ( -n $failures ) ]]; then echo ${failures}; exit 1; fi
