@@ -19,7 +19,7 @@ package routes_test
 import (
 	"context"
 
-	routes "developers.google.com/maps/go/routes/v1"
+	routes "developers.google.com/maps/go/routespreferred/v1"
 	routespb "google.golang.org/genproto/googleapis/maps/routes/v1"
 )
 

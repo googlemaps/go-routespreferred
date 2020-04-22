@@ -27,7 +27,7 @@
 //
 // For information about setting deadlines, reusing contexts, and more
 // please visit godoc.org/cloud.google.com/go.
-package routes // import "developers.google.com/maps/go/routes/v1"
+package routes // import "developers.google.com/maps/go/routespreferred/v1"
 
 import (
 	"context"
