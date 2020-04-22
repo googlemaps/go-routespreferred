@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 
-	"developers.google.com/maps/go/routes/v1"
+	"developers.google.com/maps/go/routesroutespreferred/v1"
 	routespb "google.golang.org/genproto/googleapis/maps/routes/v1"
 	"google.golang.org/genproto/googleapis/type/latlng"
 )
