@@ -26,7 +26,7 @@ jobs:
       - name: Generate
         uses: googlemaps/.github/actions/gapic@master
         with:
-          target: //google/maps/routes/v1:gapic-maps-routes-v1-go
+          target: //google/maps/routespreferred/v1:gapic-maps-routespreferred-v1-go
           github_token: ${{ secrets.SYNCED_GITHUB_TOKEN_REPO }}
           tar_path: ""
           tar_strip_components: 5
