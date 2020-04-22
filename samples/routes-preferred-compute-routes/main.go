@@ -1,3 +1,4 @@
+// [START maps_routes_preferred_compute_routes]
 package main
 
 import (
@@ -11,7 +12,6 @@ import (
 )
 
 func main() {
-	// [START maps_routes_preferred_compute_routes]
 	ctx := context.Background()
 
 	// instantiate client with default credentials
@@ -70,5 +70,5 @@ func main() {
 	}
 
 	fmt.Printf("Duration of route %d", resp.Routes[0].Duration.Seconds)
-	// [END maps_routes_preferred_compute_routes]
 }
+// [END maps_routes_preferred_compute_routes]
