@@ -1,4 +1,4 @@
-module developers.google.com/maps/go/routes
+module developers.google.com/maps/go/routespreferred
 
 go 1.14
 
