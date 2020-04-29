@@ -14,7 +14,7 @@ Go idiomatic client for Google Maps Platform Routes PreferredAPI.
 
 ## Installation
 
-TODO
+`go get developers.google.com/maps/go/routespreferred`
 
 ## Requirements
 
@@ -38,7 +38,11 @@ Get started quickly by [installing the Google Cloud SDK][cloud-sdk] and running 
 
 ## Authentication
 
-TODO language specific instructions
+Authentication for Routes Preferred is limited to API keys at this time. 
+
+`ctx = metadata.AppendToOutgoingContext(ctx, "X-Goog-Api-Key", "YOUR KEY")`
+
+See the [compute routes sample](https://github.com/googlemaps/go-routespreferred/blob/master/samples/compute-routes/main.go) for a complete example.
 
 ## Transport
 
