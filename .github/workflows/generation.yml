@@ -19,6 +19,7 @@ on:
     paths: [".github/workflows/generation.yml"]
   schedule:
     - cron: "*/30 * * * *"
+  workflow_dispatch:
 jobs:
   gapic:
     runs-on: ubuntu-latest
