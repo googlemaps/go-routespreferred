@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC
+// Copyright 2021 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import (
 
 	gax "github.com/googleapis/gax-go/v2"
 	"google.golang.org/api/option"
+	"google.golang.org/api/option/internaloption"
 	gtransport "google.golang.org/api/transport/grpc"
 	routespb "google.golang.org/genproto/googleapis/maps/routes/v1"
 	"google.golang.org/grpc"
@@ -32,14 +33,17 @@ var newRoutesPreferredClientHook clientHook
 
 // RoutesPreferredCallOptions contains the retry settings for each method of RoutesPreferredClient.
 type RoutesPreferredCallOptions struct {
-	ComputeRoutes []gax.CallOption
+	ComputeRoutes      []gax.CallOption
+	ComputeRouteMatrix []gax.CallOption
 }
 
 func defaultRoutesPreferredClientOptions() []option.ClientOption {
 	return []option.ClientOption{
-		option.WithEndpoint("routespreferred.googleapis.com:443"),
+		internaloption.WithDefaultEndpoint("routespreferred.googleapis.com:443"),
+		internaloption.WithDefaultMTLSEndpoint("routespreferred.mtls.googleapis.com:443"),
+		internaloption.WithDefaultAudience("https://routespreferred.googleapis.com/"),
+		internaloption.WithDefaultScopes(DefaultAuthScopes()...),
 		option.WithGRPCDialOption(grpc.WithDisableServiceConfig()),
-		option.WithScopes(DefaultAuthScopes()...),
 		option.WithGRPCDialOption(grpc.WithDefaultCallOptions(
 			grpc.MaxCallRecvMsgSize(math.MaxInt32))),
 	}
@@ -47,7 +51,8 @@ func defaultRoutesPreferredClientOptions() []option.ClientOption {
 
 func defaultRoutesPreferredCallOptions() *RoutesPreferredCallOptions {
 	return &RoutesPreferredCallOptions{
-		ComputeRoutes: []gax.CallOption{},
+		ComputeRoutes:      []gax.CallOption{},
+		ComputeRouteMatrix: []gax.CallOption{},
 	}
 }
 
@@ -172,6 +177,58 @@ func (c *RoutesPreferredClient) ComputeRoutes(ctx context.Context, req *routespb
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
 		resp, err = c.routesPreferredClient.ComputeRoutes(ctx, req, settings.GRPC...)
+		return err
+	}, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+// ComputeRouteMatrix takes in a list of origins and destinations and returns a stream containing
+// route information for each combination of origin and destination.
+//
+// NOTE: This method requires that you specify a response field mask in
+// the input. You can provide the response field mask by using the URL
+// parameter $fields or fields, or by using the HTTP/gRPC header
+// X-Goog-FieldMask (see the available URL parameters and
+// headers (at https://cloud.google.com/apis/docs/system-parameters). The value
+// is a comma separated list of field paths. See this detailed documentation
+// about how to construct the field
+// paths (at https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto).
+//
+// For example, in this method:
+//
+//   Field mask of all available fields (for manual inspection):
+//   X-Goog-FieldMask: *
+//
+//   Field mask of route durations, distances, element status, condition, and
+//   element indices (an example production setup):
+//   X-Goog-FieldMask: originIndex,destinationIndex,status,condition,distanceMeters,duration
+//
+// It is critical that you include status in your field mask as otherwise
+// all messages will appear to be OK. Google discourages the use of the
+// wildcard (*) response field mask, because:
+//
+//   Selecting only the fields that you need helps our server save computation
+//   cycles, allowing us to return the result to you with a lower latency.
+//
+//   Selecting only the fields that you need in your production job ensures
+//   stable latency performance. We might add more response fields in the
+//   future, and those new fields might require extra computation time. If you
+//   select all fields, or if you select all fields at the top level, then you
+//   might experience performance degradation because any new field we add will
+//   be automatically included in the response.
+//
+//   Selecting only the fields that you need results in a smaller response
+//   size, and thus higher network throughput.
+func (c *RoutesPreferredClient) ComputeRouteMatrix(ctx context.Context, req *routespb.ComputeRouteMatrixRequest, opts ...gax.CallOption) (routespb.RoutesPreferred_ComputeRouteMatrixClient, error) {
+	ctx = insertMetadata(ctx, c.xGoogMetadata)
+	opts = append(c.CallOptions.ComputeRouteMatrix[0:len(c.CallOptions.ComputeRouteMatrix):len(c.CallOptions.ComputeRouteMatrix)], opts...)
+	var resp routespb.RoutesPreferred_ComputeRouteMatrixClient
+	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		var err error
+		resp, err = c.routesPreferredClient.ComputeRouteMatrix(ctx, req, settings.GRPC...)
 		return err
 	}, opts...)
 	if err != nil {
