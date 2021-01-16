@@ -11,6 +11,18 @@ import (
 	routespb "google.golang.org/genproto/googleapis/maps/routes/v1"
 	"google.golang.org/genproto/googleapis/type/latlng"
 	"google.golang.org/grpc/metadata"
+	"google.golang.org/api/option"
+)
+
+const (
+	// https://cloud.google.com/iam/docs/creating-managing-service-account-keys#creating_service_account_keys
+	credentialsFile = "/path/to/your/service-account.json"
+	// Note that setting the field mask to * is OK for testing, but discouraged in
+	// production.
+	// For example, for ComputeRoutes, set the field mask to
+	// "routes.distanceMeters,routes.duration,routes.polyline.encodedPolyline"
+	// in order to get the route distances, durations, and encoded polylines.
+	fieldMask = "*"
 )
 
 func main() {
@@ -18,7 +30,8 @@ func main() {
 	defer cancel()
 
 	// instantiate a client
-	c, err := routespreferred.NewRoutesPreferredClient(ctx)
+	c, err := routespreferred.NewRoutesPreferredClient(ctx,
+		option.WithCredentialsFile(credentialsFile))
 	defer c.Close()
 
 	if err != nil {
@@ -30,8 +43,8 @@ func main() {
 		LocationType: &routespb.Waypoint_Location{
 			Location: &routespb.Location{
 				LatLng: &latlng.LatLng{
-					Longitude: 37.417670,
-					Latitude:  -122.0827784,
+					Latitude: 37.417670,
+					Longitude:  -122.0827784,
 				},
 			},
 		},
@@ -42,8 +55,8 @@ func main() {
 		LocationType: &routespb.Waypoint_Location{
 			Location: &routespb.Location{
 				LatLng: &latlng.LatLng{
-					Longitude: 37.417670,
-					Latitude:  -122.079595,
+					Latitude: 37.417670,
+					Longitude:  -122.079595,
 				},
 			},
 		},
@@ -66,19 +79,15 @@ func main() {
 		PolylineQuality: routespb.PolylineQuality_OVERVIEW,
 	}
 
-	// add an API key to the request
-	ctx = metadata.AppendToOutgoingContext(ctx, "X-Goog-Api-Key", "YOUR KEY")
-
 	// set the field mask
-	ctx = metadata.AppendToOutgoingContext(ctx, "X-Goog-Fieldmask", "*")
+	ctx = metadata.AppendToOutgoingContext(ctx, "X-Goog-Fieldmask", fieldMask)
 
 	// execute rpc
 	resp, err := c.ComputeRoutes(ctx, req)
 
 	if err != nil {
 		// "rpc error: code = InvalidArgument desc = Request contains an invalid
-		// argument" may indicate an invalid API key or project not having
-		// access to Routes Preferred
+		// argument" may indicate that your project lacks access to Routes Preferred
 		log.Fatal(err)
 	}
 
