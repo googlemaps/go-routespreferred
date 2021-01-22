@@ -8,15 +8,15 @@ import (
 	"time"
 
 	routespreferred "developers.google.com/maps/go/routespreferred/v1"
+	"google.golang.org/api/option"
 	routespb "google.golang.org/genproto/googleapis/maps/routes/v1"
 	"google.golang.org/genproto/googleapis/type/latlng"
 	"google.golang.org/grpc/metadata"
-	"google.golang.org/api/option"
 )
 
 const (
 	// https://cloud.google.com/iam/docs/creating-managing-service-account-keys#creating_service_account_keys
-	credentialsFile = "/path/to/your/service-account.json"
+	credentialsFile = "service-account.json"
 	// Note that setting the field mask to * is OK for testing, but discouraged in
 	// production.
 	// For example, for ComputeRoutes, set the field mask to
@@ -43,8 +43,8 @@ func main() {
 		LocationType: &routespb.Waypoint_Location{
 			Location: &routespb.Location{
 				LatLng: &latlng.LatLng{
-					Latitude: 37.417670,
-					Longitude:  -122.0827784,
+					Latitude:  37.417670,
+					Longitude: -122.0827784,
 				},
 			},
 		},
@@ -55,8 +55,8 @@ func main() {
 		LocationType: &routespb.Waypoint_Location{
 			Location: &routespb.Location{
 				LatLng: &latlng.LatLng{
-					Latitude: 37.417670,
-					Longitude:  -122.079595,
+					Latitude:  37.417670,
+					Longitude: -122.079595,
 				},
 			},
 		},
