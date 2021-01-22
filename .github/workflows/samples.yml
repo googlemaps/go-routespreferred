@@ -40,6 +40,6 @@ jobs:
         run: |
           cd samples/compute-routes;
           echo "${GOOGLE_MAPS_SERVICE_ACCOUNT_ROUTES_PREFERRED}" > service-account.json; 
-          go run
+          go run .
         env:
           GOOGLE_MAPS_SERVICE_ACCOUNT_ROUTES_PREFERRED: ${{secrets.GOOGLE_MAPS_SERVICE_ACCOUNT_ROUTES_PREFERRED}}
