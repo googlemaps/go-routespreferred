@@ -19,3 +19,4 @@ local.properties
 *.npmrc
 samples/**/main
 samples/**/failed.txt
+**/*/service-account.json
