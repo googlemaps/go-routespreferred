@@ -38,11 +38,11 @@ Get started quickly by [installing the Google Cloud SDK][cloud-sdk] and running 
 
 ## Authentication
 
-Authentication for Routes Preferred is limited to API keys at this time. 
+Routes Preferred supports authentication by OAuth token, self-signed JWT, and API Key. This library only supports OAuth and JWT from service account credentials. You can specify OAuth with `option.WithScopes("https://www.googleapis.com/auth/maps-platform.routespreferred")` or JWT with `option.WithAudiences("https://routespreferred.googleapis.com/")`, though these are both set by default.
 
-`ctx = metadata.AppendToOutgoingContext(ctx, "X-Goog-Api-Key", "YOUR KEY")`
+To run outside of App Engine/Compute Engine environments, download service account credentials following [these instructions](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#creating_service_account_keys) and point to it with `option.WithCredentialsFile(...)` or the `GOOGLE_APPLICATION_CREDENTIALS` environment variable. See the [compute routes sample](https://github.com/googlemaps/go-routespreferred/blob/master/samples/compute-routes/main.go) for a complete example.
 
-See the [compute routes sample](https://github.com/googlemaps/go-routespreferred/blob/master/samples/compute-routes/main.go) for a complete example.
+App Engine/Compute Engine instances are associated with a default service account, which this library will use by default to authenticate. However, since Routes Preferred isn't a Cloud API, the `cloud-platform` scope will not grant access to it. [Follow these instructions](https://cloud.google.com/compute/docs/access/create-enable-service-accounts-for-instances#changeserviceaccountandscopes) to set the `https://www.googleapis.com/auth/maps-platform.routespreferred` scope for your instance. Note that the scope doesn't appear on the Cloud Console, so you should use the `gcloud` command line interface.
 
 ## Transport
 
