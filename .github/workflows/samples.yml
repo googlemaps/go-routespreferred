@@ -38,8 +38,8 @@ jobs:
       - name: run samples
         if: github.event_name == 'push'
         run: |
-          find samples -name main.go -execdir sh -c "pwd; echo "${GOOGLE_MAPS_SERVICE_ACCOUNT_ROUTES_PREFERRED}" > service-account.json; run {} || touch failed.txt" \;
-          failures=$(find samples -name failed.txt);
-          if [[ ( -n $failures ) ]]; then echo ${failures}; exit 1; fi
+          cd samples/compute-routes;
+          echo "${GOOGLE_MAPS_SERVICE_ACCOUNT_ROUTES_PREFERRED}" > service-account.json; 
+          go run
         env:
           GOOGLE_MAPS_SERVICE_ACCOUNT_ROUTES_PREFERRED: ${{secrets.GOOGLE_MAPS_SERVICE_ACCOUNT_ROUTES_PREFERRED}}
