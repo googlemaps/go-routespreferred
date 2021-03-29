@@ -9,5 +9,5 @@ require (
 	golang.org/x/text v0.3.5 // indirect
 	google.golang.org/api v0.40.0
 	google.golang.org/genproto v0.0.0-20210108203827-ffc7fda8c3d7
-	google.golang.org/grpc v1.36.0
+	google.golang.org/grpc v1.36.1
 )
