@@ -4,7 +4,7 @@ go 1.14
 
 require (
 	developers.google.com/maps/go/routespreferred v1.1.0
-	google.golang.org/api v0.46.0
-	google.golang.org/genproto v0.0.0-20210429181445-86c259c2b4ab
+	google.golang.org/api v0.47.0
+	google.golang.org/genproto v0.0.0-20210513213006-bf773b8c8384
 	google.golang.org/grpc v1.37.1
 )
