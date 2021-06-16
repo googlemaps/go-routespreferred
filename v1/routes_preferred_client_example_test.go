@@ -29,18 +29,19 @@ func ExampleNewRoutesPreferredClient() {
 	if err != nil {
 		// TODO: Handle error.
 	}
+	defer c.Close()
+
 	// TODO: Use client.
 	_ = c
 }
 
 func ExampleRoutesPreferredClient_ComputeRoutes() {
-	// import routespb "google.golang.org/genproto/googleapis/maps/routes/v1"
-
 	ctx := context.Background()
 	c, err := routes.NewRoutesPreferredClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
+	defer c.Close()
 
 	req := &routespb.ComputeRoutesRequest{
 		// TODO: Fill request struct fields.
