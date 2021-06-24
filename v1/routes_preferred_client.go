@@ -43,6 +43,7 @@ func defaultRoutesPreferredGRPCClientOptions() []option.ClientOption {
 		internaloption.WithDefaultMTLSEndpoint("routespreferred.mtls.googleapis.com:443"),
 		internaloption.WithDefaultAudience("https://routespreferred.googleapis.com/"),
 		internaloption.WithDefaultScopes(DefaultAuthScopes()...),
+		internaloption.EnableJwtWithScope(),
 		option.WithGRPCDialOption(grpc.WithDisableServiceConfig()),
 		option.WithGRPCDialOption(grpc.WithDefaultCallOptions(
 			grpc.MaxCallRecvMsgSize(math.MaxInt32))),
