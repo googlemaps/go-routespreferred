@@ -4,7 +4,7 @@ go 1.14
 
 require (
 	github.com/googleapis/gax-go/v2 v2.1.1
-	google.golang.org/api v0.62.0
-	google.golang.org/genproto v0.0.0-20211203200212-54befc351ae9
+	google.golang.org/api v0.63.0
+	google.golang.org/genproto v0.0.0-20211208223120-3a66f561d7aa
 	google.golang.org/grpc v1.43.0
 )
