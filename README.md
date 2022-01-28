@@ -23,7 +23,7 @@ Go idiomatic client for Google Maps Platform Routes PreferredAPI.
 You will need a [Google Cloud Platform][developer-console] project. [Follow these instructions][create-project] to get your project set up.
 
 ### Enable the Routes Preferred API
-You will need to [enable][enable-api] the Google Maps Platform Routes PreferredAPI.
+You will need to [enable][enable-api] the [Google Maps Platform Routes PreferredAPI](https://developers.google.com/maps/documentation/routes_preferred).
 
 [![](https://img.shields.io/badge/Enable%20API-Routes%20Preferred-important)][enable-api]
 
